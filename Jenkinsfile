@@ -44,7 +44,9 @@ pipeline {
             }
         }        
     }
-    post{
-        sh 'echo "post"'
-    }
+   post {
+  always {
+     sh 'echo "post ..."'
+  }
+}
 }

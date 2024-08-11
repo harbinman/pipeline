@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    environment {
+		DOCKERHUB_CREDENTIALS=credentials('nexus')
+	}
     stages {
 
         stage('process starting') {
@@ -36,9 +38,17 @@ pipeline {
                 sh 'echo "test..."'
             }
         }
-        stage('docker build') {
+        stage('docker image build and push to nexus ') {
             steps {
-                sh 'echo "docker build..."'
+                sh '''
+                      
+                      echo "docker build..."
+                      docker build -t mynode .
+                      docker tag mynode:${BUILD_NUMBER} nexus.winters-tek.net:8082/harbinman/mynode:${BUILD_NUMBER}
+                      echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+                      docker push nexus.winters-tek.net:8082/harbinman/mynode:${BUILD_NUMBER}                
+                    
+                   '''
             }
         }
         stage('trivy scan') {

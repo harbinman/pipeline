@@ -8,7 +8,14 @@ pipeline {
                 echo "process starting..."
             }
         }
-
+        stage('node  build') {
+            steps {
+               nodejs('NodeJS') {
+                    sh 'node --version'
+                    }
+            }
+        }
+        
         stage('sonarqube scan') {
             steps {
                 sh '''   echo "sonarqube scan..."

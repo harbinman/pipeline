@@ -2,7 +2,11 @@ pipeline {
     agent any
 
     stages {
-        
+        stage('process starting') {
+            steps {
+                sh 'echo "process starting..."'
+            }
+        }
         stage('sonarqube scan') {
             steps {
                 sh '''   echo "sonarqube scan..."

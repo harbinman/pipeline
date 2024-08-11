@@ -5,7 +5,7 @@ pipeline {
         
         stage('sonarqube scan') {
             steps {
-                sh '''echo "sonarqube scan..."'
+                sh '''   echo "sonarqube scan..."
                          sonar-scanner \
                         -Dsonar.projectKey=mynode \
                         -Dsonar.sources=./src \

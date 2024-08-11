@@ -13,7 +13,7 @@ ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'secret';
 FLUSH PRIVILEGES;
 
 
-docker run -d -p 8080:8080 -p 50000:50000 -v /var/run/docker.sock:/var/run/docker.sock -v jenkins_home:/var/jenkins_home -v /opt/usr:/opt/usr --name jenkins harbinman/customjenkins:lts
+docker run -d --restart always -p 8080:8080 -p 50000:50000 -v /var/run/docker.sock:/var/run/docker.sock -v jenkins_home:/var/jenkins_home -v /opt/usr:/opt/usr --name jenkins harbinman/customjenkins:lts
 
 
 sonar-scanner \

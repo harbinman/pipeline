@@ -12,7 +12,7 @@ pipeline {
         stage('sonarqube scan') {
             steps {
                 sh '''   echo "sonarqube scan..."
-                        export PATH=$PAHT:/opt/usr/sonar-scanner/bin
+                        export PATH=$PATH:/opt/usr/sonar-scanner/bin/
                          sonar-scanner \
                         -Dsonar.projectKey=mynode \
                         -Dsonar.sources=./src \

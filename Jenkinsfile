@@ -2,11 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Cleanup Workspace') {
-            steps {
-                deleteDir()
-            }
-        }
+
         stage('process starting') {
             steps {
                 sh 'echo "process starting..."'

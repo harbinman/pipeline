@@ -44,7 +44,7 @@ pipeline {
                       
                       echo "docker build..."
                       docker build -t mynode:${BUILD_NUMBER} .
-                      docker tag mynode:${BUILD_NUMBER} nexus.winters-tek.net:8082/harbinman/mynode:${BUILD_NUMBER}
+                      docker tag mynode:${BUILD_NUMBER} nexus.winters-tek.net:8083/harbinman/mynode:${BUILD_NUMBER}
                       echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
                       docker push nexus.winters-tek.net:8083/harbinman/mynode:${BUILD_NUMBER}                
                     

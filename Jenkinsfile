@@ -8,17 +8,12 @@ pipeline {
                 echo "process starting..."
             }
         }
-        stage('node  build') {
-            steps {
-               nodejs('NodeJS') {
-                    sh 'node --version'
-                    }
-            }
-        }
-        
+                
         stage('sonarqube scan') {
             steps {
-                sh '''   echo "sonarqube scan..."
+
+                nodejs('NodeJS') {
+                    sh '''   echo "sonarqube scan..."
                         export PATH=$PATH:/opt/usr/sonar-scanner/bin/
                          sonar-scanner \
                         -Dsonar.projectKey=mynode \
@@ -27,6 +22,8 @@ pipeline {
                         -Dsonar.login=sqp_e99c1e0be3ab83b1a43657183711d34f2769e46e
                 
                   '''
+                    }
+               
             }
         }
         stage('build') {

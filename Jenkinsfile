@@ -5,7 +5,14 @@ pipeline {
         
         stage('sonarqube scan') {
             steps {
-                sh 'echo "sonarqube scan..."'
+                sh '''echo "sonarqube scan..."'
+                         sonar-scanner \
+                        -Dsonar.projectKey=mynode \
+                        -Dsonar.sources=src/ \
+                        -Dsonar.host.url=http://nexus.winters-tek.net:9001 \
+                        -Dsonar.login=sqp_e99c1e0be3ab83b1a43657183711d34f2769e46e
+                
+                  '''
             }
         }
         stage('build') {

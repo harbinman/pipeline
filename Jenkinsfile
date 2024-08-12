@@ -52,16 +52,7 @@ pipeline {
                    '''
             }
         }
-        stage('docker push to nexus') {
-            steps {
-                sh '''
-                        echo "docker push to nexus..."
-                        echo $NEXUS_CREDENTIALS_PSW | docker login nexus.winters-tek.net:8083 -u $NEXUS_CREDENTIALS_USR --password-stdin
-                        docker push nexus.winters-tek.net:8083/harbinman/mynode:${BUILD_NUMBER}       
-                              
-                  '''
-            }
-        }
+
         stage('trivy scan') {
             steps {
                 sh '''
@@ -71,6 +62,7 @@ pipeline {
                 '''
             }
         }
+        
         stage('artifactory trivy result to nexus') {
             steps {
 
@@ -84,7 +76,16 @@ pipeline {
                     '''
             }
         }
-
+        stage('docker image push to nexus') {
+            steps {
+                sh '''
+                        echo "docker push to nexus..."
+                        echo $NEXUS_CREDENTIALS_PSW | docker login nexus.winters-tek.net:8083 -u $NEXUS_CREDENTIALS_USR --password-stdin
+                        docker push nexus.winters-tek.net:8083/harbinman/mynode:${BUILD_NUMBER}       
+                              
+                  '''
+            }
+        }
         stage('update eks deployment file') {
             steps {
                 sh 'echo "update eks deployment file ..."'

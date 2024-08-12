@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
 		NEXUS_CREDENTIALS=credentials('nexus')
-        PATH=$PATH:/opt/usr/sonar-scanner/bin/
+        PATH="${env.PATH}:/opt/usr/sonar-scanner/bin/"
 	}
     stages {
 

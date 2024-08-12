@@ -66,7 +66,7 @@ pipeline {
                 sh '''
                 
                         echo "artifactory trivy result to nexus..."
-                        curl --fail -u $NEXUS_CREDENTIALS_USR:$NEXUS_CREDENTIALS_PSW --upload-file result.zip 'https:/nexus.winters-tek.net:8081/repository/raw-host/${BUILD_NUMBER}/reult.txt'      
+                        curl --fail -u $NEXUS_CREDENTIALS_USR:$NEXUS_CREDENTIALS_PSW --upload-file result.txt 'https:/nexus.winters-tek.net:8081/repository/raw-host/${BUILD_NUMBER}/reult.txt'      
                 
                     '''
             }

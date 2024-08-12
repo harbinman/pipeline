@@ -56,7 +56,7 @@ pipeline {
             steps {
                 sh '''
                       echo "docker build..."
-                       docker run --rm -d  aquasec/trivy:0.54.1 image  nexus.winters-tek.net:8083/harbinman/mynode:${BUILD_NUMBER} >> result_${BUILD_NUMBER}.txt
+                       docker run --rm -d  aquasec/trivy:0.54.1 image  mynode:${BUILD_NUMBER} > result_${BUILD_NUMBER}.txt
                                
                 '''
             }

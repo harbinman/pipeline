@@ -66,7 +66,7 @@ pipeline {
             steps {
                 sh '''
                       echo "docker build..."
-                       docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.54.1 image --severity CRITICAL,HIGH mynode:${BUILD_NUMBER} >> result_${BUILD_NUMBER}.txt
+                       docker run -d --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.54.1 image --severity CRITICAL,HIGH mynode:${BUILD_NUMBER} >> result_${BUILD_NUMBER}.txt
                                
                 '''
             }

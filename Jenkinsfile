@@ -18,7 +18,7 @@ pipeline {
                 nodejs('NodeJS') {
                     sh '''   
                         echo "sonarqube scan..."
-                        // export PATH=$PATH:/opt/usr/sonar-scanner/bin/
+                        # export PATH=$PATH:/opt/usr/sonar-scanner/bin/
                          sonar-scanner \
                         -Dsonar.projectKey=mynode \
                         -Dsonar.sources=./src \

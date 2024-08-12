@@ -64,7 +64,7 @@ pipeline {
         stage('artifactory trivy result to nexus') {
             steps {
 
-                archiveArtifacts artifacts: '**.*.txt', allowEmptyArchive: 'true'
+                archiveArtifacts artifacts: '**/*.txt', allowEmptyArchive: 'true'
                 sh '''
                 
                         echo "artifactory trivy result to nexus..."

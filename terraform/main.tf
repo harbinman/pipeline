@@ -5,7 +5,7 @@ resource "aws_instance" "jenkins" {
   security_groups             = ["sg-00467812237ecf509"]
   subnet_id                   = "subnet-074087e9ecf20fb88"
   associate_public_ip_address = true
-
+  key_name = resource.aws_key_pair.jenkins.key_name
   root_block_device {
     volume_size = 20
   }

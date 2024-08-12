@@ -1,7 +1,8 @@
 pipeline {
     agent any
     environment {
-		DOCKERHUB_CREDENTIALS=credentials('nexus')
+		NEXUS_CREDENTIALS=credentials('nexus')
+        PATH=$PATH:/opt/usr/sonar-scanner/bin/
 	}
     stages {
 
@@ -15,8 +16,9 @@ pipeline {
             steps {
 
                 nodejs('NodeJS') {
-                    sh '''   echo "sonarqube scan..."
-                        export PATH=$PATH:/opt/usr/sonar-scanner/bin/
+                    sh '''   
+                        echo "sonarqube scan..."
+                        // export PATH=$PATH:/opt/usr/sonar-scanner/bin/
                          sonar-scanner \
                         -Dsonar.projectKey=mynode \
                         -Dsonar.sources=./src \
@@ -45,25 +47,38 @@ pipeline {
                       echo "docker build..."
                       docker build -t mynode:${BUILD_NUMBER} .
                       docker tag mynode:${BUILD_NUMBER} nexus.winters-tek.net:8083/harbinman/mynode:${BUILD_NUMBER}
-                      echo $DOCKERHUB_CREDENTIALS_PSW | docker login nexus.winters-tek.net:8083 -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-                      docker push nexus.winters-tek.net:8083/harbinman/mynode:${BUILD_NUMBER}                
+                              
                     
                    '''
             }
         }
         stage('trivy scan') {
             steps {
-                sh 'echo "docker build..."'
+                sh '''
+                      echo "docker build..."
+                       docker run -rm -d -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy:0.54.1 image  nexus.winters-tek.net:8083/harbinman/mynode:${BUILD_NUMBER} >> result_${BUILD_NUMBER}.txt
+                               
+                '''
             }
         }
         stage('artifactory trivy result to nexus') {
             steps {
-                sh 'echo "artifactory trivy result to nexus..."'
+                sh '''
+                
+                        echo "artifactory trivy result to nexus..."
+                        curl --fail -u $NEXUS_CREDENTIALS_USR:$NEXUS_CREDENTIALS_PSW --upload-file result.zip 'https:/nexus.winters-tek.net:8081/repository/raw-host/${BUILD_NUMBER}/reult.txt'      
+                
+                    '''
             }
         }
         stage('docker push to nexus') {
             steps {
-                sh 'echo "docker push to nexus..."'
+                sh '''
+                        echo "docker push to nexus..."
+                        echo $NEXUS_CREDENTIALS_PSW | docker login nexus.winters-tek.net:8083 -u $NEXUS_CREDENTIALS_USR --password-stdin
+                        docker push nexus.winters-tek.net:8083/harbinman/mynode:${BUILD_NUMBER}       
+                              
+                  '''
             }
         }
         stage('update eks deployment file') {

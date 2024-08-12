@@ -63,9 +63,12 @@ pipeline {
         }
         stage('artifactory trivy result to nexus') {
             steps {
+
+                archiveArtifacts artifacts: '**.*.txt', allowEmptyArchive: 'true'
                 sh '''
                 
                         echo "artifactory trivy result to nexus..."
+                        
                         curl --fail -u $NEXUS_CREDENTIALS_USR:$NEXUS_CREDENTIALS_PSW --upload-file result_${BUILD_NUMBER}.txt 'http://nexus.winters-tek.net:8081/repository/raw-host/'      
                 
                     '''

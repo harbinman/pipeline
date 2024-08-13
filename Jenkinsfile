@@ -11,7 +11,20 @@ pipeline {
                 echo "process starting..."
             }
         }
-                
+        stage('terraform') {
+            when {
+                 changeset '*/**.tf'
+                }
+
+            steps {
+                sh'''
+                     echo "terraform starting..."
+                     terraform init
+                     terraform plan
+                     terraform apply  -auto-approve   
+                   '''
+            }
+        }  
         stage('sonarqube scan') {
             steps {
 
